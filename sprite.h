@@ -15,6 +15,7 @@ class SPRITE {
 	int animcolumns;
 	int animstartx, animstarty;
 	BITMAP * image;
+	int facing;
 public:
 	SPRITE ();
 	SPRITE (int xx, int yy, int wid, int ht, int curF, int frameC, int frameD, int maxF, int animC);
@@ -24,6 +25,9 @@ public:
 	int load (char *filename);
 	void drawframe (BITMAP * dest, int debug);
 	void updateAnimation();
+	void setFacing (int face);
+	int getFacing ();
+	void setCurFrame (int curF);
 };
 
 #endif

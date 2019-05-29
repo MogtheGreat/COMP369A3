@@ -9,7 +9,7 @@ LIBFLAGS = `pkg-config --cflags --libs allegro` -lstdc++
 .c.o:
 	$(CPP) $(LIBFLAGS) $(CPPFLAGS) -c $<
 
-TBD: main.o mappyal.o auxi.o level.o sprite.o
+TBD: main.o mappyal.o auxi.o level.o sprite.o action.o
 	$(CPP) $(CPPFLAGS) $^ $(LIBFLAGS) $(OFLAG)
 
 main.o:	main.cpp
@@ -19,6 +19,8 @@ auxi.o: auxi.cpp auxi.h
 level.o: level.cpp level.h
 
 sprite.o: sprite.cpp sprite.h
+
+action.o: action.cpp action.h
 
 mappyal.o: mappyal.c mappyal.h
 	$(CPP) $(LIBFLAGS) $(CPPFLAGS) -w -c $<

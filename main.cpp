@@ -3,6 +3,7 @@
 #include "auxi.h"
 #include "level.h"
 #include "sprite.h"
+#include "action.h"
 
 using namespace std;
 
@@ -76,7 +77,7 @@ int main (int argc, char * argv[]) {
 			while (!gameOver && (!key[KEY_ESC])) {
 				lvl.drawLevel (buffer, WIDTH, HEIGHT);
 				player -> drawframe(buffer, debug);
-				//player -> updateAnimation();
+				playerInput (player);
 		
 				//blit the double buffer 
 				vsync();

@@ -23,6 +23,7 @@ SPRITE :: SPRITE () {
 	animcolumns = 0;
 	animstartx = 0;
 	animstarty = 0;
+	facing = 1;
 }
 
 SPRITE :: SPRITE (int xx, int yy, int wid, int ht, int curF, int frameC, int frameD, int maxF, int animC) {
@@ -38,6 +39,7 @@ SPRITE :: SPRITE (int xx, int yy, int wid, int ht, int curF, int frameC, int fra
 	animcolumns = animC;
 	animstartx = 0;
 	animstarty = 0;
+	facing = 1;
 }
 
 SPRITE :: SPRITE (int dr, int alv, int xx, int yy, int xs, int ys, int xd, int yd, int xc, int yc,
@@ -60,6 +62,7 @@ SPRITE :: SPRITE (int dr, int alv, int xx, int yy, int xs, int ys, int xd, int y
 	animcolumns = animC;
 	animstartx = animSX;
 	animstarty = animSY;
+	facing = 1;
 }
 
 SPRITE::~SPRITE () {
@@ -87,7 +90,15 @@ void SPRITE :: drawframe (BITMAP * dest, int debug) {
     	cout << "fy: " << fy << endl;
     	cout << "Starting blit" << endl;
     }
-    masked_blit(image,dest,fx,fy,x,y,width,height);
+
+    if (facing == 1)
+	    masked_blit(image,dest,fx,fy,x,y,width,height);
+	else {
+		BITMAP * temp = create_bitmap (width, height);
+		blit (image, temp, fx, fy, 0, 0, width, height);
+		draw_sprite_h_flip (dest, temp, x, y);
+		destroy_bitmap (temp);
+	}
 }
 
 void SPRITE::updateAnimation() 
@@ -102,7 +113,19 @@ void SPRITE::updateAnimation()
             curframe = maxframe-1;
 		}
 		if (curframe > maxframe-1) {
-            curframe = 0;
+            curframe = 1;
         }
     }
+}
+
+void SPRITE :: setFacing (int face) {
+	facing = face;
+}
+
+int SPRITE :: getFacing () {
+	return facing;
+}
+
+void SPRITE :: setCurFrame (int curF) {
+	curframe = curF;
 }
