@@ -60,3 +60,11 @@ vector <string> getLvls () {
 
 	return list;
 }
+
+BITMAP * grabframe (BITMAP * source, int width, int height, int startx, int starty, int columns, int frame) {
+	BITMAP * temp = create_bitmap (width, height);
+	int x = startx + (frame % columns) * width;
+	int y = starty + (frame / columns) * height;
+	blit (source, temp, x, y, 0, 0, width, height);
+	return temp;
+}

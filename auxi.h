@@ -18,4 +18,6 @@ int initialize ();
 
 std::vector <std::string> getLvls ();
 
+BITMAP * grabframe (BITMAP * source, int width, int height, int startx, int starty, int columns, int frame);
+
 #endif

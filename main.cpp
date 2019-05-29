@@ -2,6 +2,7 @@
 #include <string>
 #include "auxi.h"
 #include "level.h"
+#include "sprite.h"
 
 using namespace std;
 
@@ -22,6 +23,7 @@ END_OF_FUNCTION (timer1)
 int main (int argc, char * argv[]) {
 	int debug = checkDebug (argc, argv);
 	Levels lvl (debug);
+	SPRITE * player;
 	bool gameOver = false;
 
 	if (debug) {
@@ -37,17 +39,18 @@ int main (int argc, char * argv[]) {
 		cout << "Start map collecting and first map load..." << endl;
 
 	vector <string> mapList = getLvls (); //Loads names of all available map levels from folder
-	lvl.initGlobals (0, HEIGHT/2 + 10, mapList.size());
-	
-	/*//Loads the first map
-	if (MapLoad ((char *) mapList[0].c_str()) != 0) {
-		set_gfx_mode (GFX_TEXT, 0, 0, 0, 0);
-		allegro_message ("Can't find a valid .fmp file.");
+	lvl.initGlobals (0, HEIGHT/2 + 10, mapList.size()); //Initializes the levels global variables
+	player = new SPRITE (80, HEIGHT/2 + 60, 50, 58, 0, 0, 6, 6, 3); // Loads player's sprite into program
+	if (!(player -> load ((char*)"Resources/Original/Space Marine(50x58)(3 columns).bmp"))) {
+		allegro_message("Error loading player's sprite!");
 		return 1;
-	} */
+	}
 
 	BITMAP * buffer = create_bitmap (WIDTH, HEIGHT); // Set up secondary buffer
 	clear (buffer);
+
+	if (debug)
+		cout << "Locking timer variables..." << endl;
 
 	//identify variables used by interupt function
 	LOCK_VARIABLE (counter);
@@ -57,6 +60,9 @@ int main (int argc, char * argv[]) {
 
 	//create new interrupt handler
 	install_int (timer1, 1000);
+
+	if (debug)
+		cout << "Beginning main game loop..." << endl;
 
 	//Main game loop
 	while (!key[KEY_ESC]){
@@ -69,6 +75,8 @@ int main (int argc, char * argv[]) {
 			//Gameplay loop
 			while (!gameOver && (!key[KEY_ESC])) {
 				lvl.drawLevel (buffer, WIDTH, HEIGHT);
+				player -> drawframe(buffer, debug);
+				//player -> updateAnimation();
 		
 				//blit the double buffer 
 				vsync();
@@ -76,7 +84,7 @@ int main (int argc, char * argv[]) {
 				blit(buffer, screen, 0, 0, 0, 0, WIDTH-1, HEIGHT-1);
        		 	release_screen();
        		 	
-       		 	lvl.shiftScreen (); //Moves the screen along
+       		 	//lvl.shiftScreen (); //Moves the screen along
        		 	ticks++; 
 			}
 
@@ -84,6 +92,11 @@ int main (int argc, char * argv[]) {
 		}
 		ticks++;
 	}
+
+	if (debug)
+		cout << "Exited main game loop...\n Releasing memory..." << endl;
+
+	delete player;
 	destroy_bitmap (buffer);
 	allegro_exit ();
 	return 0;
