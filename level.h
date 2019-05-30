@@ -6,6 +6,8 @@
 #include <string>
 #include "mappyal.h"
 
+#define DEBUG 0
+
 //Load next level
 //Check to see if last lvl
 //Load Game Over (lost) screen
@@ -26,7 +28,9 @@ public:
 	int loadLevel (std::vector<std::string> list);
 	void drawLevel (BITMAP * buffer, int width, int height);
 	void shiftScreen ();
+	int getMapXOff ();
 	int collided (int x, int y);
+	void adjustYScroll (int playerY, int playerHeight);
 };
 
 #endif

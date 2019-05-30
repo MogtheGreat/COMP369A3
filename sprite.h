@@ -3,6 +3,8 @@
 #include <allegro.h>
 #include <iostream>
 
+#define JUMPIT 1600
+
 class SPRITE {
 	int dir, alive;
 	int x, y;
@@ -16,6 +18,7 @@ class SPRITE {
 	int animstartx, animstarty;
 	BITMAP * image;
 	int facing;
+	int jump;
 public:
 	SPRITE ();
 	SPRITE (int xx, int yy, int wid, int ht, int curF, int frameC, int frameD, int maxF, int animC);
@@ -28,6 +31,15 @@ public:
 	void setFacing (int face);
 	int getFacing ();
 	void setCurFrame (int curF);
+	void moveSprite (int xx, int yy);
+	int getJump ();
+	void setJump (int jmp);
+	void addToJump (int num);
+	int getX ();
+	void setX (int xx);
+	int getY ();
+	int getWidth ();
+	int getHeight ();
 };
 
 #endif

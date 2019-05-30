@@ -24,6 +24,7 @@ SPRITE :: SPRITE () {
 	animstartx = 0;
 	animstarty = 0;
 	facing = 1;
+	jump = JUMPIT;
 }
 
 SPRITE :: SPRITE (int xx, int yy, int wid, int ht, int curF, int frameC, int frameD, int maxF, int animC) {
@@ -40,6 +41,7 @@ SPRITE :: SPRITE (int xx, int yy, int wid, int ht, int curF, int frameC, int fra
 	animstartx = 0;
 	animstarty = 0;
 	facing = 1;
+	jump = JUMPIT;
 }
 
 SPRITE :: SPRITE (int dr, int alv, int xx, int yy, int xs, int ys, int xd, int yd, int xc, int yc,
@@ -63,6 +65,7 @@ SPRITE :: SPRITE (int dr, int alv, int xx, int yy, int xs, int ys, int xd, int y
 	animstartx = animSX;
 	animstarty = animSY;
 	facing = 1;
+	jump = JUMPIT;
 }
 
 SPRITE::~SPRITE () {
@@ -128,4 +131,41 @@ int SPRITE :: getFacing () {
 
 void SPRITE :: setCurFrame (int curF) {
 	curframe = curF;
+}
+
+void SPRITE :: moveSprite (int xx, int yy) {
+	x += xx;
+	y += yy;
+}
+
+int SPRITE :: getJump () {
+	return jump;
+}
+
+void SPRITE :: setJump (int jmp) {
+	jump = jmp;
+}
+
+void SPRITE :: addToJump (int num) {
+	jump += num;
+}
+
+int SPRITE :: getX () {
+	return x;
+}
+
+void SPRITE :: setX (int xx) {
+	x = xx;
+}
+
+int SPRITE :: getY () {
+	return y;
+}
+
+int SPRITE :: getWidth () {
+	return width;
+}
+
+int SPRITE :: getHeight () {
+	return height;
 }

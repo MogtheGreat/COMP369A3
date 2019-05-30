@@ -59,12 +59,33 @@ void Levels::shiftScreen () {
 	if (debug) cout << "mapxoff: " << mapxoff << endl;
 }
 
+int Levels :: getMapXOff () {
+	return mapxoff;
+}
+
 int Levels::collided (int x, int y) {
 	BLKSTR * blockdata;
-	blockdata = MapGetBlock (x/mapblockwidth, y/mapblockheight);
+	blockdata = MapGetBlock ((x + mapxoff)/mapblockwidth, (y + mapyoff)/mapblockheight);
 
-	if ((blockdata -> tl == 1) || (blockdata -> bl == 1))
+	if (DEBUG) {
+		cout << "mapxoff: " << mapxoff << endl;
+		cout << "mapyoff: " << mapyoff << endl;
+		cout << "x: " << x <<  endl;
+		cout << "y: " << y << endl;
+		cout << "blockdata -> tl: " << (int) blockdata -> tl << endl;
+		cout << "blockdata -> tr: " << (int) blockdata -> tr << endl;
+		cout << "blockdata -> bl: " << (int) blockdata -> bl << endl;
+		cout << "blockdata -> br: " << (int) blockdata -> br << endl;
+		cout << "blockdata -> user1: " << blockdata -> user1 << endl;
+	}
+
+	if ((blockdata -> tl >= 1) || (blockdata -> bl >= 1))
 		return 1;
 	else
 		return 0;
+	//return blockdata -> tl;
+}
+
+void Levels :: adjustYScroll (int playerY, int playerHeight) {
+
 }

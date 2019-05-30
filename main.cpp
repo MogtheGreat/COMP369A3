@@ -75,9 +75,10 @@ int main (int argc, char * argv[]) {
 			
 			//Gameplay loop
 			while (!gameOver && (!key[KEY_ESC])) {
+				lvl.adjustYScroll (player -> getY (), player -> getHeight ());
 				lvl.drawLevel (buffer, WIDTH, HEIGHT);
 				player -> drawframe(buffer, debug);
-				playerInput (player);
+				playerInput (player, lvl);
 		
 				//blit the double buffer 
 				vsync();
@@ -85,7 +86,8 @@ int main (int argc, char * argv[]) {
 				blit(buffer, screen, 0, 0, 0, 0, WIDTH-1, HEIGHT-1);
        		 	release_screen();
        		 	
-       		 	//lvl.shiftScreen (); //Moves the screen along
+       		 	lvl.shiftScreen (); //Moves the screen along
+       		 	player -> moveSprite (-2, 0);
        		 	ticks++; 
 			}
 
