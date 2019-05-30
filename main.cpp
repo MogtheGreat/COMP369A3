@@ -40,8 +40,8 @@ int main (int argc, char * argv[]) {
 		cout << "Start map collecting and first map load..." << endl;
 
 	vector <string> mapList = getLvls (); //Loads names of all available map levels from folder
-	lvl.initGlobals (0, HEIGHT/2 + 10, mapList.size()); //Initializes the levels global variables
-	player = new SPRITE (80, HEIGHT/2 + 60, 50, 58, 0, 0, 6, 6, 3); // Loads player's sprite into program
+	lvl.initGlobals (0, HEIGHT/8 + 10, mapList.size()); //Initializes the levels global variables
+	player = new SPRITE (80, HEIGHT/2 + 130, 50, 58, 0, 0, 6, 6, 3); // Loads player's sprite into program
 	if (!(player -> load ((char*)"Resources/Original/Space Marine(50x58)(3 columns).bmp"))) {
 		allegro_message("Error loading player's sprite!");
 		return 1;
@@ -69,13 +69,12 @@ int main (int argc, char * argv[]) {
 	while (!key[KEY_ESC]){
 		
 		if (!gameOver && (!key[KEY_ESC])) {
-			lvl.resetCameraPos (0, HEIGHT/2 + 10);
+			lvl.resetCameraPos (0, 75);
 			if (lvl.loadLevel (mapList))
 				return 1;
 			
 			//Gameplay loop
 			while (!gameOver && (!key[KEY_ESC])) {
-				lvl.adjustYScroll (player -> getY (), player -> getHeight ());
 				lvl.drawLevel (buffer, WIDTH, HEIGHT);
 				player -> drawframe(buffer, debug);
 				playerInput (player, lvl);
@@ -87,11 +86,11 @@ int main (int argc, char * argv[]) {
        		 	release_screen();
        		 	
        		 	lvl.shiftScreen (); //Moves the screen along
-       		 	player -> moveSprite (-2, 0);
-       		 	ticks++; 
+       		 	player -> moveSprite (-1, 0);
+       		 	ticks++;
 			}
 
-			MapFreeMem ();
+			MapFreeMem (); 
 		}
 		ticks++;
 	}

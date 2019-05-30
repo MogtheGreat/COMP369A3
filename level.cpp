@@ -55,7 +55,7 @@ void Levels::drawLevel (BITMAP * buffer, int width, int height) {
 
 void Levels::shiftScreen () {
 	if (debug) cout << "Shift screen to left." << endl;
-	if (mapxoff < ((mapblockwidth * mapwidth) - 575)) mapxoff += 6;
+	if (mapxoff < ((mapblockwidth * mapwidth) - 575)) mapxoff += 5;
 	if (debug) cout << "mapxoff: " << mapxoff << endl;
 }
 
@@ -83,9 +83,14 @@ int Levels::collided (int x, int y) {
 		return 1;
 	else
 		return 0;
-	//return blockdata -> tl;
 }
 
 void Levels :: adjustYScroll (int playerY, int playerHeight) {
-
+	static int oldY = mapyoff;
+	if (playerY < 284)
+		mapyoff -= 1; // mapyoff - ((284 - abs(playerY))/50);
+	else if (mapyoff < oldY)
+		mapyoff += 2;
+	else if (mapyoff > oldY)
+		mapyoff -= 1;
 }

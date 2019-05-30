@@ -9,7 +9,7 @@
 
 #define MODE GFX_AUTODETECT_WINDOWED
 #define WIDTH 640
-#define HEIGHT 448
+#define HEIGHT 600
 #define PATH "Resources/Map/"
 
 int checkDebug (int argc, char * argv[]);
