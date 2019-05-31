@@ -10,6 +10,8 @@
 
 void playerInput (sprites * player, sprites * bullets[MAX_BULLETS], Levels lvl);
 
+void enemyPhysic (sprites * enemies[MAX_ENEMIES], Levels lvl);
+
 void handleJump (sprites * spr, Levels lvl);
 
 void handleWall (sprites * spr, Levels lvl, int oldX, int oldY);

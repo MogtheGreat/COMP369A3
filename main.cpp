@@ -3,6 +3,7 @@
 #include "level.h"
 #include "movement.h"
 #include "weapons.h"
+#include "enemy.h"
 
 #define MODE GFX_AUTODETECT_WINDOWED
 #define WIDTH 640
@@ -79,17 +80,19 @@ int main (int argc, char * argv[])  {
 				playerInput (player, bullets, lvl);
 				
 				updatebullets (buffer, bullets, enemies, WIDTH-1);
+				updateEnemies (buffer, enemies, WIDTH-1, HEIGHT-1);
+				enemyPhysic (enemies, lvl);
 
 				//blit the double buffer 
 				vsync();
 				acquire_screen();
-				blit(buffer, screen, 0, 0, 0, 0, WIDTH-1, HEIGHT-1);
+				blit(buffer, screen, 0, 0, 0, 0, WIDTH, HEIGHT);
        			release_screen();
 
        			ticks++;
        			player -> incrementFireCount ();
-       			lvl. shiftScreen ();
-       			player -> moveSprite (-2, 0);
+       			//lvl. shiftScreen ();
+       			//player -> moveSprite (-2, 0);
        			
 			}
 			MapFreeMem (); 

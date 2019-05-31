@@ -4,7 +4,7 @@
 
 #define JUMPIT 1600
 #define MAX_BULLETS 20
-#define MAX_ENEMIES 6
+#define MAX_ENEMIES 3
 
 class sprites {
 	int dir, alive;

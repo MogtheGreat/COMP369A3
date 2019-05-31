@@ -73,7 +73,7 @@ int initSprite (sprites *& player, sprites * bullets[MAX_BULLETS], sprites * ene
 	player -> setFacing (1);
 	player -> setJump (JUMPIT);
 	player -> setFireCount (0);
-	player -> setFireDelay (10);
+	player -> setFireDelay (8);
 	if (!(player -> load ((char*)"Resources/Original/Space Marine(50x58)(3 columns).bmp"))) {
 		allegro_message("Error loading player's sprite!");
 		return 0;
@@ -105,6 +105,7 @@ int initSprite (sprites *& player, sprites * bullets[MAX_BULLETS], sprites * ene
 
 	for (int n = 0; n < MAX_ENEMIES; n++) {
 		enemies[n] = new sprites ();
+		enemies[n] -> setAlive (0);
 		enemies[n] -> setX (rand() % 250 + 300);
 		enemies[n] -> setY (100);
 		enemies[n] -> setWidth (133);
@@ -113,13 +114,14 @@ int initSprite (sprites *& player, sprites * bullets[MAX_BULLETS], sprites * ene
 		enemies[n] -> setYSpeed (0);
 		enemies[n] -> setCurFrame (0);
 		enemies[n] -> setFrameCount (0);
-		enemies[n] -> setFrameDelay (0);
-		enemies[n] -> setMaxFrame (0);
+		enemies[n] -> setFrameDelay (2);
+		enemies[n] -> setMaxFrame (3);
 		enemies[n] -> setAnimDir (1);
 		enemies[n] -> setAnimColumns (2);
 		enemies[n] -> setAnimStartX (0);
 		enemies[n] -> setAnimStartY (0);
 		enemies[n] -> setFacing (1);
+		enemies[n] -> setJump (JUMPIT);
 		if (!(enemies[n] -> load ((char*)"Resources/Sprites/tyranids(133x118)(2 columns).bmp"))) {
 			allegro_message("Error loading enemies's sprite!");
 			return 0;

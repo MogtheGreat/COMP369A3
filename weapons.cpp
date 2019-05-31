@@ -25,7 +25,7 @@ void updatebullets (BITMAP * buffer, sprites * bullets[MAX_BULLETS], sprites * e
 void updatebullet (sprites * bullet, sprites * enemies[MAX_ENEMIES], int mapWidth) {
 
 	//move the bullet
-	bullet -> updateSprite ();
+	bullet -> moveSprite (bullet -> getXSpeed (), bullet -> getYSpeed ());
 
 	if ((bullet -> getX () < 0) || (bullet-> getX() > mapWidth)) {
 		bullet -> setAlive (0);

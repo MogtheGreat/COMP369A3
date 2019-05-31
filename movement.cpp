@@ -52,6 +52,18 @@ void playerInput (sprites * player, sprites * bullets[MAX_BULLETS], Levels lvl) 
 	}
 }
 
+void enemyPhysic (sprites * enemies[MAX_ENEMIES], Levels lvl) {
+	for (int n = 0; n < MAX_ENEMIES; n++) {
+		if (enemies[n] -> getJump () == JUMPIT) {
+			if (!lvl.collided (enemies[n]-> getX() + (enemies[n] -> getWidth ()), enemies[n]-> getY() + (enemies[n]-> getHeight())))
+			enemies[n] -> setJump (0);
+		}
+
+		handleJump (enemies[n], lvl);
+		handleWall (enemies[n], lvl, enemies[n] -> getX(), enemies[n] -> getY ());
+	}
+}
+
 void handleJump (sprites * spr, Levels lvl) {
 	
 	if (spr -> getJump () != JUMPIT) {

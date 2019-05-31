@@ -9,7 +9,7 @@ LIBFLAGS = `pkg-config --cflags --libs allegro` -lstdc++
 .c.o:
 	$(CPP) $(LIBFLAGS) $(CPPFLAGS) -c $<
 
-TBD:	main.o sprites.o load.o mappyal.o level.o movement.o weapons.o
+TBD:	main.o sprites.o load.o mappyal.o level.o movement.o weapons.o enemy.o
 	$(CPP) $(CPPFLAGS) $^ $(LIBFLAGS) $(OFLAG)
 
 main.o:	main.cpp
@@ -26,6 +26,8 @@ mappyal.o: mappyal.c mappyal.h
 level.o: level.cpp level.h
 
 weapons.o: weapons.cpp weapons.h
+
+enemy.o: enemy.cpp enemy.h
 
 clean:
 	rm -f *.o TBD
