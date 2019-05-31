@@ -91,8 +91,8 @@ int main (int argc, char * argv[])  {
 
        			ticks++;
        			player -> incrementFireCount ();
-       			//lvl. shiftScreen ();
-       			//player -> moveSprite (-2, 0);
+       			lvl. shiftScreen ();
+       			player -> moveSprite (-2, 0);
        			
 			}
 			MapFreeMem (); 

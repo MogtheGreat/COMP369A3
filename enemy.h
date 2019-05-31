@@ -6,4 +6,6 @@
 
 void updateEnemies (BITMAP * buffer, sprites * enemies[MAX_ENEMIES], int mapWidth, int mapHeight);
 
+void enemyCollision (sprites * player, sprites * enemies[MAX_ENEMIES]);
+
 #endif

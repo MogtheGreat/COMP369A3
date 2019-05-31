@@ -34,8 +34,8 @@ void updatebullet (sprites * bullet, sprites * enemies[MAX_ENEMIES], int mapWidt
 
 	for (int n = 0; n < MAX_ENEMIES; n++) {
 		if (enemies[n] -> getAlive ()) {
-			int x = bullet -> getX () / 2;
-			int y = bullet -> getY () / 2;
+			int x = bullet -> getX ();
+			int y = bullet -> getY ();
 
 			//Get enemy alien bounding rectangle
 			int x1 = enemies [n] -> getX ();

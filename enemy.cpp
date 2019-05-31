@@ -20,8 +20,13 @@ void updateEnemies (BITMAP * buffer, sprites * enemies[MAX_ENEMIES], int mapWidt
 		}
 		else {
 			enemies[n] -> setAlive (1);
-			enemies[n] -> setX (rand() % 250 + 350);
+			enemies[n] -> setX (rand() % 450 + 350);
 			enemies[n] -> setY (100);
 		}
 	}
+}
+
+void enemyCollision (sprites * player, sprites * enemies[MAX_ENEMIES]) {
+	int x = player -> getX () + player-> getWidth ()/2;
+	int y = player -> getY () + player-> getHeight ()/2;
 }
