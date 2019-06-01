@@ -75,13 +75,15 @@ int main (int argc, char * argv[])  {
 
 			//Gameplay loop
 			while (!gameOver && !levelOver &&(!key[KEY_ESC])) {
-				lvl.drawLevel (buffer, WIDTH, HEIGHT);
-				player -> drawframe(buffer);
-				playerInput (player, bullets, lvl);
+				lvl.drawLevel (buffer, WIDTH, HEIGHT); // Draws environment to buffer
+				player -> drawframe(buffer);	// Draws player's sprite
+				playerInput (player, bullets, lvl); // Gets player's inpute and move sprite accordingly
 				
-				updatebullets (buffer, bullets, enemies, WIDTH-1);
-				updateEnemies (buffer, enemies, WIDTH-1, HEIGHT-1);
-				enemyPhysic (enemies, lvl);
+				updatebullets (buffer, bullets, enemies, WIDTH-1); // Moves bullets and draws to buffer
+				updateEnemies (buffer, enemies, WIDTH-1, HEIGHT-1); // Moves enemies and draws to buffer
+				enemyPhysic (enemies, lvl);	// Allows enemies to interact with the environment
+
+				enemyCollision (player, enemies); //Check to see if enemy has killed player
 
 				//blit the double buffer 
 				vsync();
@@ -90,7 +92,7 @@ int main (int argc, char * argv[])  {
        			release_screen();
 
        			ticks++;
-       			player -> incrementFireCount ();
+       			player -> incrementFireCount (); // Allows player to fire.
        			lvl. shiftScreen ();
        			player -> moveSprite (-2, 0);
        			
