@@ -35,7 +35,7 @@ public:
 
 	//ADD TO Functions
 	void adjustYScroll (int playerY, int playerHeight);
-	void shiftScreen ();
+	int shiftScreen ();
 };
 
 #endif

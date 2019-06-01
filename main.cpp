@@ -43,7 +43,8 @@ int main (int argc, char * argv[])  {
 	sprites * player;
 	sprites * bullets[MAX_BULLETS];
 	sprites * enemies[MAX_ENEMIES];
-	if (!(initSprite (player, bullets, enemies))) // If one the sprites images does not load, exit the game
+	sprites * explosions [MAX_EXPLOSIONS];
+	if (!(initSprite (player, bullets, enemies, explosions))) // If one the sprites images does not load, exit the game
 		return 1;
 
 	//Main Gameplay Variables
@@ -79,8 +80,9 @@ int main (int argc, char * argv[])  {
 				player -> drawframe(buffer);	// Draws player's sprite
 				playerInput (player, bullets, lvl); // Gets player's inpute and move sprite accordingly
 				
-				updatebullets (buffer, bullets, enemies, WIDTH-1); // Moves bullets and draws to buffer
+				updatebullets (buffer, bullets, enemies, explosions, WIDTH-1); // Moves bullets and draws to buffer
 				updateEnemies (buffer, enemies, WIDTH-1, HEIGHT-1); // Moves enemies and draws to buffer
+				updateExplosion (buffer, explosions); //Moces the explosion sprites
 				enemyPhysic (enemies, lvl);	// Allows enemies to interact with the environment
 
 				enemyCollision (player, enemies); //Check to see if enemy has killed player
@@ -93,9 +95,13 @@ int main (int argc, char * argv[])  {
 
        			ticks++;
        			player -> incrementFireCount (); // Allows player to fire.
-       			lvl. shiftScreen ();
-       			player -> moveSprite (-2, 0);
-       			
+       			//Scrolls the screen and ajust the player and enemy sprites
+	       		if (lvl. shiftScreen ()) {
+	       			player -> moveSprite (-2, 0);
+	       			for (int n = 0; n < MAX_ENEMIES; n++) {
+	       				enemies[n] -> moveSprite (-4,0);
+	       			}
+	       		}
 			}
 			MapFreeMem (); 
 		} // End of Main Gameplay Branch
@@ -108,6 +114,8 @@ int main (int argc, char * argv[])  {
 		delete bullets[n];
 	for (int n = 0; n < MAX_ENEMIES; n++)
 		delete enemies[n];
+	for (int n = 0; n < MAX_EXPLOSIONS; n++)
+		delete explosions[n];
 	
 	allegro_exit ();
 	return 0;

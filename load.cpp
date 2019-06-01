@@ -56,7 +56,7 @@ vector <string> getLvls () {
 	return list;
 }
 
-int initSprite (sprites *& player, sprites * bullets[MAX_BULLETS], sprites * enemies[MAX_ENEMIES]) {
+int initSprite (sprites *& player, sprites * bullets[MAX_BULLETS], sprites * enemies[MAX_ENEMIES], sprites * explosions [MAX_EXPLOSIONS]) {
 	player = new sprites ();
 	player -> setX (80);
 	player -> setY (HEIGHT/2 + 130);
@@ -124,6 +124,34 @@ int initSprite (sprites *& player, sprites * bullets[MAX_BULLETS], sprites * ene
 		enemies[n] -> setJump (JUMPIT);
 		if (!(enemies[n] -> load ((char*)"Resources/Sprites/tyranids(133x118)(2 columns).bmp"))) {
 			allegro_message("Error loading enemies's sprite!");
+			return 0;
+		}
+	}
+
+	for (int n = 0; n < MAX_EXPLOSIONS; n++) {
+		explosions [n] = new sprites ();
+		explosions [n] -> setAlive (0);
+		explosions [n] -> setX(0);
+		explosions [n] -> setY(0);
+		explosions [n] -> setWidth (130);
+		explosions [n] -> setHeight (130);
+		explosions [n] -> setXDelay (8);
+		explosions [n] -> setYDelay (0);
+		explosions [n] -> setXCount (0);
+		explosions [n] -> setYCount (0);
+		explosions [n] -> setXSpeed (-1);
+		explosions [n] -> setYSpeed (0);
+		explosions [n] -> setCurFrame (0);
+		explosions [n] -> setMaxFrame (6);
+		explosions [n] -> setFrameCount (0);
+		explosions [n] -> setFrameDelay (2);
+		explosions [n] -> setAnimDir (1);
+		explosions [n] -> setAnimColumns (7);
+		explosions [n] -> setAnimStartX (0);
+		explosions [n] -> setAnimStartY (0);
+		explosions [n] -> setFacing (1);
+		if (!(explosions[n] -> load ((char*)"Resources/Sprites/bigexplosion(130x130)(7 columns).bmp"))) {
+			allegro_message("Error loading explosions's sprite!");
 			return 0;
 		}
 	}

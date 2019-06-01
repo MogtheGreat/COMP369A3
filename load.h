@@ -16,6 +16,6 @@ int initialize ();
 
 std::vector <std::string> getLvls ();
 
-int initSprite (sprites *& player, sprites * bullets[MAX_BULLETS], sprites * enemies[MAX_ENEMIES]);
+int initSprite (sprites *& player, sprites * bullets[MAX_BULLETS], sprites * enemies[MAX_ENEMIES], sprites * explosions [MAX_EXPLOSIONS]);
 
 #endif

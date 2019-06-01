@@ -130,8 +130,12 @@ void Levels :: adjustYScroll (int playerY, int playerHeight) {
 		mapyoff -= 1;
 }
 
-void Levels::shiftScreen () {
+int Levels::shiftScreen () {
 	if (DEBUG) cout << "Shift screen to left." << endl;
-	if (mapxoff < ((mapblockwidth * mapwidth) - 575)) mapxoff += 4;
+	if (mapxoff < ((mapblockwidth * mapwidth) - 575)){
+	 	mapxoff += 4;
+	 	return 1;
+	}
 	if (DEBUG) cout << "mapxoff: " << mapxoff << endl;
+	return 0;
 }
