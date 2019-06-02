@@ -71,7 +71,14 @@ void handleJump (sprites * spr, Levels lvl) {
 		spr -> addToJump (-1);
 	}
 
-	if (spr -> getJump () < 0) {
+	if ((spr -> getJump () > 0)) {
+		if (lvl.hitCeiling (spr-> getX() + (spr -> getWidth ()), spr-> getY() + (spr-> getHeight()))) {
+			spr -> setJump (0);
+			spr -> moveSprite (0, 2);
+		}
+	}
+
+	else if (spr -> getJump () < 0) {
 		if (lvl.collided (spr-> getX() + (spr -> getWidth ()), spr-> getY() + (spr-> getHeight())))
 		{
 			spr -> setJump(JUMPIT);
@@ -94,4 +101,11 @@ void handleWall (sprites * spr, Levels lvl, int oldX, int oldY) {
 			spr -> setY (oldY);
 		}
 	}
+}
+
+void onScreen (sprites * player, int mapWidth) {
+	if (player -> getX() < 0)
+		player -> moveSprite (4,0);
+	if (player -> getX() > mapWidth)
+		player -> moveSprite (-4,0);
 }

@@ -16,4 +16,6 @@ void handleJump (sprites * spr, Levels lvl);
 
 void handleWall (sprites * spr, Levels lvl, int oldX, int oldY);
 
+void onScreen (sprites * player, int width);
+
 #endif

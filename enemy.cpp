@@ -26,7 +26,7 @@ void updateEnemies (BITMAP * buffer, sprites * enemies[MAX_ENEMIES], int mapWidt
 	}
 }
 
-void enemyCollision (sprites * player, sprites * enemies[MAX_ENEMIES]) {
+void enemyCollision (sprites * player, sprites * enemies[MAX_ENEMIES], sprites * blood, int & life) {
 	int x = player -> getX () + player-> getWidth ()/2;
 	int y = player -> getY () + player-> getHeight ()/2;
 
@@ -40,8 +40,10 @@ void enemyCollision (sprites * player, sprites * enemies[MAX_ENEMIES]) {
 
 			if (enemies[n] -> inside (x, y, x1, y1, x2, y2)) {
 				enemies[n] -> setAlive (0);
-				//Subtract life score
-				//Start Explosion
+				blood -> setAlive (1);
+				blood -> setX (player -> getX());
+				blood -> setY (player -> getY());
+				life--;
 			}
 		}
 	}

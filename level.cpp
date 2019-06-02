@@ -57,7 +57,7 @@ void Levels::drawLevel (BITMAP * buffer, int width, int height) {
 	MapDrawFG(buffer, mapxoff, mapyoff, 0, 0, width-1, height-1, 0);
 }
 
-/*Environment Physic Functions*/
+/*Boolean Functions*/
 
 int Levels::collided (int x, int y) {
 	BLKSTR * blockdata;
@@ -75,12 +75,41 @@ int Levels::collided (int x, int y) {
 		cout << "blockdata -> user1: " << blockdata -> user1 << endl;
 	}
 
-	if ((blockdata -> tl >= 1) || (blockdata -> bl >= 1) || (blockdata -> br >= 1))
+	if ((blockdata -> tl >= 1) || (blockdata -> tr >= 1))
 		return 1;
 	else
 		return 0;
 }
 
+int Levels :: hitCeiling (int x, int y) {
+	BLKSTR * blockdata;
+	blockdata = MapGetBlock ((x + mapxoff)/mapblockwidth, (y + mapyoff)/mapblockheight);
+	if ((blockdata -> bl >= 1) || (blockdata -> br >= 1))
+		return 1;
+	else
+		return 0;
+}
+
+int Levels :: levelEnd (int playerX, int screenWidth) {
+	if (mapxoff >= ((mapblockwidth * mapwidth) - 575)){
+		if (playerX > screenWidth)
+			return 1;
+	}
+
+	return 0;
+}
+
+int Levels :: anotherLevel () {
+	if (curLvl < numLvls)
+		return 0;
+	return 1;
+}
+
+int Levels :: doneGame () {
+	if (curLvl >= numLvls)
+		return 1;
+	return 0;
+}
 
 /******GET Functions******/
 
@@ -138,4 +167,8 @@ int Levels::shiftScreen () {
 	}
 	if (DEBUG) cout << "mapxoff: " << mapxoff << endl;
 	return 0;
+}
+
+void Levels :: incrementCurLvl() {
+	curLvl++;
 }

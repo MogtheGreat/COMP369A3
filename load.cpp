@@ -56,7 +56,8 @@ vector <string> getLvls () {
 	return list;
 }
 
-int initSprite (sprites *& player, sprites * bullets[MAX_BULLETS], sprites * enemies[MAX_ENEMIES], sprites * explosions [MAX_EXPLOSIONS]) {
+int initSprite (sprites *& player, sprites * bullets[MAX_BULLETS], sprites * enemies[MAX_ENEMIES], 
+				sprites * explosions [MAX_EXPLOSIONS], sprites *& blood) {
 	player = new sprites ();
 	player -> setX (80);
 	player -> setY (HEIGHT/2 + 130);
@@ -73,7 +74,7 @@ int initSprite (sprites *& player, sprites * bullets[MAX_BULLETS], sprites * ene
 	player -> setFacing (1);
 	player -> setJump (JUMPIT);
 	player -> setFireCount (0);
-	player -> setFireDelay (8);
+	player -> setFireDelay (6);
 	if (!(player -> load ((char*)"Resources/Original/Space Marine(50x58)(3 columns).bmp"))) {
 		allegro_message("Error loading player's sprite!");
 		return 0;
@@ -86,7 +87,7 @@ int initSprite (sprites *& player, sprites * bullets[MAX_BULLETS], sprites * ene
 		bullets[n] -> setY (0);
 		bullets[n] -> setWidth (34);
 		bullets[n] -> setHeight (14);
-		bullets[n] -> setXSpeed (10);
+		bullets[n] -> setXSpeed (12);
 		bullets[n] -> setYSpeed (0);
 		bullets[n] -> setCurFrame (0);
 		bullets[n] -> setFrameCount (0);
@@ -155,6 +156,32 @@ int initSprite (sprites *& player, sprites * bullets[MAX_BULLETS], sprites * ene
 			return 0;
 		}
 	}
+
+	blood = new sprites  ();
+	blood -> setAlive (0);
+	blood -> setX (0);
+	blood -> setY (0);
+	blood -> setWidth (64);
+	blood -> setHeight (64);
+	blood -> setXDelay (0);
+	blood -> setYDelay (0);
+	blood -> setXCount (0);
+	blood -> setYCount (0);
+	blood -> setXSpeed (-1);
+	blood -> setYSpeed (0);
+	blood -> setCurFrame (0);
+	blood -> setMaxFrame (15);
+	blood -> setFrameCount (0);
+	blood -> setFrameDelay (1);
+	blood -> setAnimDir (1);
+	blood -> setAnimColumns (4);
+	blood -> setAnimStartX(0);
+	blood -> setAnimStartY(0);
+	blood -> setFacing (1);
+	if (!(blood -> load ((char*)"Resources/Sprites/playersDeath(64x64)(4 columns).bmp"))) {
+			allegro_message("Error loading blood's sprite!");
+			return 0;
+		}
 
 	return 1;
 }

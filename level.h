@@ -19,7 +19,13 @@ public:
 	void resetCameraPos (int mapx, int mapy);
 	int loadLevel (std::vector<std::string> list);
 	void drawLevel (BITMAP * buffer, int width, int height);
+	
+	//boolean functions
 	int collided (int x, int y);
+	int hitCeiling (int x, int y);
+	int levelEnd (int playerX, int screenWidth);
+	int anotherLevel ();
+	int doneGame ();
 	
 	//GET Functions
 	int getMapXOff ();
@@ -36,6 +42,7 @@ public:
 	//ADD TO Functions
 	void adjustYScroll (int playerY, int playerHeight);
 	int shiftScreen ();
+	void incrementCurLvl();
 };
 
 #endif

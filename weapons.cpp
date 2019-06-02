@@ -14,17 +14,17 @@ void fireatenemy (sprites * bullets[MAX_BULLETS], int x, int y) {
 }
 
 void updatebullets (BITMAP * buffer, sprites * bullets[MAX_BULLETS], sprites * enemies[MAX_ENEMIES], 
-					sprites * explosions [MAX_EXPLOSIONS], int mapWidth) {
+					sprites * explosions [MAX_EXPLOSIONS], int mapWidth, int & score) {
 	for (int n = 0; n < MAX_BULLETS; n++) {
 		if (bullets[n] -> getAlive()) {
-			updatebullet (bullets[n], enemies, explosions, mapWidth);
+			updatebullet (bullets[n], enemies, explosions, mapWidth, score);
 			bullets[n] -> drawframe (buffer);
 		}
 	}
 }
 
 void updatebullet (sprites * bullet, sprites * enemies[MAX_ENEMIES], 
-				   sprites * explosions [MAX_EXPLOSIONS], int mapWidth) {
+				   sprites * explosions [MAX_EXPLOSIONS], int mapWidth, int & score) {
 
 	//move the bullet
 	bullet -> moveSprite (bullet -> getXSpeed (), bullet -> getYSpeed ());
@@ -50,7 +50,7 @@ void updatebullet (sprites * bullet, sprites * enemies[MAX_ENEMIES],
 				enemies[n] -> setAlive (0);
 				bullet -> setAlive (0);
 				startExplosion (explosions, enemies[n]-> getX (),enemies[n]-> getY());
-				//SCORE
+				score += 100;
 				break;
 			}
 		}
@@ -68,7 +68,7 @@ void startExplosion (sprites * explosions [MAX_EXPLOSIONS], int x, int y) {
 	}
 }
 
-void updateExplosion (BITMAP * buffer, sprites * explosions [MAX_EXPLOSIONS]) {
+void updateExplosion (BITMAP * buffer, sprites * explosions [MAX_EXPLOSIONS], sprites * blood) {
 	for (int n = 0; n < MAX_EXPLOSIONS; n++) {
 		if (explosions[n] -> getAlive()) {
 			explosions[n] -> updateSprite ();
@@ -78,6 +78,16 @@ void updateExplosion (BITMAP * buffer, sprites * explosions [MAX_EXPLOSIONS]) {
 				explosions[n] -> setCurFrame (0);
 				explosions[n] -> setAlive (0);
 			}
+		}
+	}
+
+	if (blood -> getAlive()) {
+		blood -> updateSprite ();
+		blood -> drawframe (buffer);
+
+		if (blood -> getCurFrame () >= blood -> getMaxFrame ()) {
+			blood -> setCurFrame (0);
+			blood -> setAlive (0);
 		}
 	}
 }
