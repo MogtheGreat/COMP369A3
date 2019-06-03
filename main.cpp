@@ -1,3 +1,24 @@
+/*
+Title: main.cpp
+Description: Plays the game Battle Of Ichar IV which is a platform/shooter game that can be played on the 
+			 keyboard.
+Author: Michael G. Oranski
+ID: 2743708
+Date: June 3, 2019
+*/
+/*
+ DOCUMENTATION
+ Program Purpose:
+ 	To play a platform/shooter game called Battle Of Ichar IV. The player  must fight/avoid hord of aliens
+ 	as they try to reach the end of the level. They have a set number of lives in order to complete all levels.
+
+  Compile (assuming running on Linux):
+ 	gcc -Wall main.cpp sprites.cpp load.cpp mappyal.c level.cpp movement.cpp weapons.cpp enemy.cpp display.cpp sound.cpp `pkg-config --cflags --libs allegro` -lstdc++ -o BattleOfIcharIV
+ 	or
+	make
+ Execution (assuming running on Linux):
+ 	./BattleOfIcharIV
+ */
 #include "sprites.h"
 #include "load.h"
 #include "level.h"
@@ -23,9 +44,13 @@ void timer1 (void) {
 }
 END_OF_FUNCTION (timer1)
 
+/*
+	Using command line input, determines whatever to
+	activate debug mode or normal play.
+*/
 int checkDebug (int argc, char * argv[]) {
-	if (argc == 1) return 0;
-	else if (strcmp(argv[1],"-d") == 0) return 1;
+	if (argc == 1) return 0; // Only one argument
+	else if (strcmp(argv[1],"-d") == 0) return 1; // if second argument is -d
 	return 0;
 }
 
@@ -33,6 +58,7 @@ int checkDebug (int argc, char * argv[]) {
 int main (int argc, char * argv[])  {
 	int debug = checkDebug (argc, argv);
 
+	//Initialize allegro library, window, timer, and sound system
 	if (initialize()) {
 		return 1;
 	}
@@ -53,7 +79,7 @@ int main (int argc, char * argv[])  {
 	int score = 0;
 	int highscore = 0;
 	bool pause = false;
-	bool music = false;
+	bool music = true;
 	bool once = false;
 	Levels lvl;		//Deals with level environment and scrolling
 
@@ -67,10 +93,14 @@ int main (int argc, char * argv[])  {
 	SAMPLE * mainMusic = load_sample(PATHMUSIC"Strength of a Thousand Men - Two Steps from Hell .wav");
 	SAMPLE * badEnd = load_sample (PATHMUSIC"Warhammer 40,000 Eternal Crusade Soundtrack Tyranids - Theme.wav");
 	SAMPLE * goodEnd = load_sample (PATHMUSIC"Audiomachine - Dauntless (Epic Powerful Heroic Music).wav");
+	SAMPLE * alienDeath = load_sample (PATHSOUND"Bomb_Exploding.wav");
+	SAMPLE * shoot = load_sample (PATHSOUND"AK47 Assault Rifle.wav");
+	SAMPLE * jump = load_sample (PATHSOUND"Jump.wav");
+	SAMPLE * playerDeath = load_sample (PATHSOUND"Cracking Chest Open.wav");
 
 	vector <string> mapList = getLvls (); //Loads names of all available map levels from folder
 	lvl.initGlobals (0, HEIGHT/8 + 10, mapList.size()); //Initializes the levels global variables
-	sound soundCtrl;
+	sound soundCtrl; // Controls volume, pitch and pan for music and sound effects
 	BITMAP * buffer = create_bitmap (WIDTH, HEIGHT); // Set up secondary buffer
 	clear (buffer);
 
@@ -83,7 +113,12 @@ int main (int argc, char * argv[])  {
 	//create new interrupt handler
 	install_int (timer1, 1000);
 
-	displayStart (screen, WIDTH-1, HEIGHT-1);
+	displayNotice (); // display Copyright and statire notice.
+	while (!keypressed()); // Wait for player to press any key
+	readkey(); // clears buffer
+
+	displayStart (screen, WIDTH-1, HEIGHT-1); // Displays the opening screen
+	// Plays intro music
 	play_sample(introMusic, soundCtrl. getVolume (), soundCtrl. getPan(), soundCtrl. getPitch(), FALSE); // Plays intro Music
 	while (!keypressed()); // Wait for player to press any key
 	readkey(); // clears buffer
@@ -94,7 +129,7 @@ int main (int argc, char * argv[])  {
 		if (debug)
 			cout << "Starting main game loop." << endl;
 	
-		if (!gameOver)
+		 if (!gameOver)
 			play_sample(mainMusic, soundCtrl. getVolume (), soundCtrl. getPan(), soundCtrl. getPitch(), TRUE); // Plays main game Music
 	
 		//Main Game Play Branch
@@ -107,20 +142,22 @@ int main (int argc, char * argv[])  {
 			displayLevelStart (screen, statusFont, WIDTH-1, HEIGHT-1, lvl. getCurLvl()+1);
 
 			//Gameplay loop
-			while (!gameOver && !levelOver &&(!key[KEY_ESC])) {
+			while (!gameOver && !levelOver && (!key[KEY_ESC])) {
 				if (!pause) {
 					lvl.drawLevel (buffer, WIDTH, HEIGHT); // Draws environment to buffer
 					player -> drawframe(buffer);	// Draws player's sprite
-					playerInput (player, bullets, lvl, music, pause, soundCtrl); // Gets player's inpute and move sprite accordingly
+					// Gets player's inpute and move sprite accordingly
+					playerInput (player, bullets, lvl, music, pause, soundCtrl, shoot, jump);
 				
-					updatebullets (buffer, bullets, enemies, explosions, WIDTH-1, score, soundCtrl); // Moves bullets and draws to buffer
+					// Moves bullets and draws to buffer
+					updatebullets (buffer, bullets, enemies, explosions, WIDTH-1, score, soundCtrl, alienDeath);
 					updateEnemies (buffer, enemies, WIDTH-1, HEIGHT-1); // Moves enemies and draws to buffer
 					updateExplosion (buffer, explosions, blood); //Moces the explosion sprites
 				
 					enemyPhysic (enemies, lvl);	// Allows enemies to interact with the environment
-					enemyCollision (player, enemies, blood, life); //Check to see if enemy has killed player
+					enemyCollision (player, enemies, blood, life, soundCtrl, playerDeath); //Check to see if enemy has killed player
 
-					displayStatus (buffer, statusFont, optionFont, WIDTH-1, life, score, music);
+					displayStatus (buffer, statusFont, optionFont, WIDTH-1, life, score, music); // Display life and score
 
 					//blit the double buffer 
 					vsync();
@@ -143,17 +180,20 @@ int main (int argc, char * argv[])  {
 	       			//Check for level End
 	       			if (lvl.levelEnd (player -> getX(), WIDTH - player -> getWidth()))
 	       				levelOver = true;
-	       			if (life < 0)
+	       			if (life < 0) // Check for game over
 	       				gameOver = true;
 	       			
+	       			//Determines if music should be on or off
 	       			if (music)
 	       				soundCtrl. musicOn ();
 	       			else
 	       				soundCtrl. musicOff ();
-	       			adjust_sample (introMusic, soundCtrl. getVolume (), soundCtrl. getPan(), soundCtrl. getPitch(), FALSE); // Plays intro Music
+	       			// Adjust the main game music
+	       			adjust_sample (introMusic, soundCtrl. getVolume (), soundCtrl. getPan(), soundCtrl. getPitch(), FALSE);
 				}
+				// Pauses the game and display help module
 				else {
-					displayHelp (screen, statusFont, optionFont, WIDTH-1, HEIGHT-1);
+					displayHelp (screen, statusFont, optionFont, WIDTH-1, HEIGHT-1); // Displays the help module to the player
 					while (!keypressed()); // Wait for player to press any key
 					readkey (); // clears input buffer
 					pause = false; // restart game
@@ -163,13 +203,15 @@ int main (int argc, char * argv[])  {
 			if (debug)
 				cout << "END OF LEVEL OR GAME" << endl;
 			
-			MapFreeMem ();
+			MapFreeMem (); // Frees the map
 			
+			// If game is not over and players have not exit game
 			if ((!gameOver) && (!key[KEY_ESC])) {
 				if (debug)
 					cout << "END OF LEVEL" << endl;
 				
-				score += 1000;
+				score += 1000; // Bonus points for player
+				// Display the level end status
 				displayLevelEnd (screen, statusFont, WIDTH-1, HEIGHT-1, lvl. getCurLvl()+1, score);
 				lvl.incrementCurLvl(); // Get next Level
 
@@ -196,11 +238,15 @@ int main (int argc, char * argv[])  {
 			}
 		} // End of Main Gameplay Branch
 
+		// Player's lost or have completed game.
 		if ((gameOver) && (!key[KEY_ESC])) {
+				if (debug)
+					cout << "GAME OVER SCREEN!" << endl;
+
 				stop_sample(mainMusic); // Stops sample from playing
 
 				if (!once) {
-					displayEnd (screen, score, highscore, life, WIDTH-1, HEIGHT-1);
+					displayEnd (screen, score, highscore, life, WIDTH-1, HEIGHT-1); // Displays the end game screen
 					
 					//Plays the right music for the ending
 					if (life >= 0)
@@ -210,6 +256,7 @@ int main (int argc, char * argv[])  {
 					once = true;
 				}
 
+				// Players decides to restart the game
 				if (key[KEY_Y]) {
 					life = 30;
 					score = 0;
@@ -249,6 +296,10 @@ int main (int argc, char * argv[])  {
 	destroy_sample (mainMusic);
 	destroy_sample (badEnd);
 	destroy_sample (goodEnd);
+	destroy_sample (alienDeath);
+	destroy_sample (shoot);
+	destroy_sample (jump);
+	destroy_sample (playerDeath);
 
 	allegro_exit ();
 	return 0;

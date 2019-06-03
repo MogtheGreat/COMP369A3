@@ -3,6 +3,7 @@
 #include <allegro.h>
 
 #define PATHMUSIC "Resources/Music/"
+#define PATHSOUND "Resources/Sound/"
 
 class sound {
 	int volume;

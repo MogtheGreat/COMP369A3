@@ -8,7 +8,9 @@
 
 #define DEBUG2 0
 
-void playerInput (sprites * player, sprites * bullets[MAX_BULLETS], Levels lvl, bool & music, bool & pause, sound sndCtrl);
+void playerInput (sprites * player, sprites * bullets[MAX_BULLETS], Levels lvl, 
+				  bool & music, bool & pause, sound sndCtrl, SAMPLE * shoot,
+				  SAMPLE * jump);
 
 void enemyPhysic (sprites * enemies[MAX_ENEMIES], Levels lvl);
 

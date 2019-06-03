@@ -1,5 +1,15 @@
 #include "display.h"
 
+void displayNotice () {
+	textprintf_ex (screen, font, 0, 0, WHITE, -1, "The Ultramarines and Tyranids are part of the Warhammer 40K brand. The author of this game");
+	textprintf_ex (screen, font, 0, 10, WHITE, -1,"does not claim any right to these intellicual property. As such this game can not be use");
+	textprintf_ex (screen, font, 0, 20, WHITE, -1, "to gain montarty profit. This game is designed strictly for entertainment and nothing else.");
+
+	textprintf_ex (screen, font, 0, 60, WHITE, -1, "It should also be notice that the views expressed in the Warhammer 40K universe are to be");
+	textprintf_ex (screen, font, 0, 70, WHITE, -1, "considered satire and does not express the opinion of the author of this game.");
+	textprintf_ex (screen, font, 0, 90, WHITE, -1, "If you agree, press any key to continue. Otherwise press ESC twice to exit.");
+}
+
 void displayStart (BITMAP * dest, int screenWidth, int screenHeight) {
 	PALETTE palette;	// Color palette for fonts.
 	FONT * titleFont = load_font (PATHFONT"Space Marine (36).pcx", palette, NULL);

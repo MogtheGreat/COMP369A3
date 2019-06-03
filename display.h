@@ -10,6 +10,8 @@
 #define BLUE makecol (0,0,205)
 #define RED makecol (128,0,0)
 
+void displayNotice ();
+
 void displayStart (BITMAP * dest, int screenWidth, int screenHeight);
 
 void displayLevelStart (BITMAP * dest, FONT * statusFont, int screenWidth, int screenHeight, int curLevel);

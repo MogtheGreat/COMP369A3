@@ -3,11 +3,9 @@
 using namespace std;
 
 void playerInput (sprites * player, sprites * bullets[MAX_BULLETS], Levels lvl, bool & music, 
-				  bool & pause, sound sndCtrl) {
+				  bool & pause, sound sndCtrl, SAMPLE * shoot, SAMPLE * jump) {
 	int oldX = player -> getX ();
 	int oldY = player -> getY ();
-	SAMPLE * shoot = load_sample (PATHMUSIC"AK47 Assault Rifle.wav");
-	SAMPLE * jump = load_sample (PATHMUSIC"Jump.wav");
 
 	if (DEBUG2){
 		cout << "Player x and y before function..." << endl;
@@ -72,9 +70,6 @@ void playerInput (sprites * player, sprites * bullets[MAX_BULLETS], Levels lvl, 
 		cout << "player -> x: " << player -> getX () << endl;
 		cout << "player -> y: " << player -> getY () << endl;
 	}
-
-	destroy_sample (shoot);
-	destroy_sample (jump);
 }
 
 void enemyPhysic (sprites * enemies[MAX_ENEMIES], Levels lvl) {

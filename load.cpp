@@ -29,6 +29,13 @@ int initialize () {
 		return 1;
 	}
 
+	//install a digital sound driver
+    if (install_sound(DIGI_AUTODETECT, MIDI_NONE, "") != 0) 
+    {
+        std::cerr <<"Error initializing sound system" << std::endl;
+        return 1;
+    }
+
 	return 0;
 }
 

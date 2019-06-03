@@ -14,20 +14,19 @@ void fireatenemy (sprites * bullets[MAX_BULLETS], int x, int y) {
 }
 
 void updatebullets (BITMAP * buffer, sprites * bullets[MAX_BULLETS], sprites * enemies[MAX_ENEMIES], 
-					sprites * explosions [MAX_EXPLOSIONS], int mapWidth, int & score, sound sndCtrl) {
+					sprites * explosions [MAX_EXPLOSIONS], int mapWidth, int & score, sound sndCtrl,
+					SAMPLE * alienDeath) {
 
 	for (int n = 0; n < MAX_BULLETS; n++) {
 		if (bullets[n] -> getAlive()) {
-			updatebullet (bullets[n], enemies, explosions, mapWidth, score, sndCtrl);
+			updatebullet (bullets[n], enemies, explosions, mapWidth, score, sndCtrl, alienDeath);
 			bullets[n] -> drawframe (buffer);
 		}
 	}
 }
 
 void updatebullet (sprites * bullet, sprites * enemies[MAX_ENEMIES], sprites * explosions [MAX_EXPLOSIONS], 
-				   int mapWidth, int & score, sound sndCtrl) {
-
-	SAMPLE * alienDeath = load_sample (PATHMUSIC"Bomb_Exploding.wav");
+				   int mapWidth, int & score, sound sndCtrl, SAMPLE * alienDeath) {
 
 	//move the bullet
 	bullet -> moveSprite (bullet -> getXSpeed (), bullet -> getYSpeed ());
@@ -59,8 +58,6 @@ void updatebullet (sprites * bullet, sprites * enemies[MAX_ENEMIES], sprites * e
 			}
 		}
 	}
-
-	destroy_sample (alienDeath);
 }
 
 void startExplosion (sprites * explosions [MAX_EXPLOSIONS], int x, int y) {
