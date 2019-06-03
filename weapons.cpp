@@ -14,17 +14,20 @@ void fireatenemy (sprites * bullets[MAX_BULLETS], int x, int y) {
 }
 
 void updatebullets (BITMAP * buffer, sprites * bullets[MAX_BULLETS], sprites * enemies[MAX_ENEMIES], 
-					sprites * explosions [MAX_EXPLOSIONS], int mapWidth, int & score) {
+					sprites * explosions [MAX_EXPLOSIONS], int mapWidth, int & score, sound sndCtrl) {
+
 	for (int n = 0; n < MAX_BULLETS; n++) {
 		if (bullets[n] -> getAlive()) {
-			updatebullet (bullets[n], enemies, explosions, mapWidth, score);
+			updatebullet (bullets[n], enemies, explosions, mapWidth, score, sndCtrl);
 			bullets[n] -> drawframe (buffer);
 		}
 	}
 }
 
-void updatebullet (sprites * bullet, sprites * enemies[MAX_ENEMIES], 
-				   sprites * explosions [MAX_EXPLOSIONS], int mapWidth, int & score) {
+void updatebullet (sprites * bullet, sprites * enemies[MAX_ENEMIES], sprites * explosions [MAX_EXPLOSIONS], 
+				   int mapWidth, int & score, sound sndCtrl) {
+
+	SAMPLE * alienDeath = load_sample (PATHMUSIC"Bomb_Exploding.wav");
 
 	//move the bullet
 	bullet -> moveSprite (bullet -> getXSpeed (), bullet -> getYSpeed ());
@@ -50,11 +53,14 @@ void updatebullet (sprites * bullet, sprites * enemies[MAX_ENEMIES],
 				enemies[n] -> setAlive (0);
 				bullet -> setAlive (0);
 				startExplosion (explosions, enemies[n]-> getX (),enemies[n]-> getY());
+				play_sample(alienDeath, sndCtrl. getVolume (), sndCtrl. getPan(), sndCtrl. getPitch(), FALSE); // Plays intro Music
 				score += 100;
 				break;
 			}
 		}
 	}
+
+	destroy_sample (alienDeath);
 }
 
 void startExplosion (sprites * explosions [MAX_EXPLOSIONS], int x, int y) {

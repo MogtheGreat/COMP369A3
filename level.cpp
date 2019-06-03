@@ -91,7 +91,7 @@ int Levels :: hitCeiling (int x, int y) {
 }
 
 int Levels :: levelEnd (int playerX, int screenWidth) {
-	if (mapxoff >= ((mapblockwidth * mapwidth) - 575)){
+	if (mapxoff >= ((mapblockwidth * mapwidth) - 675)){
 		if (playerX > screenWidth)
 			return 1;
 	}
@@ -152,7 +152,7 @@ void Levels :: setNumLvls (int setTo) {
 void Levels :: adjustYScroll (int playerY, int playerHeight) {
 	static int oldY = mapyoff;
 	if (playerY < 284)
-		mapyoff -= 1; // mapyoff - ((284 - abs(playerY))/50);
+		mapyoff -= 1;
 	else if (mapyoff < oldY)
 		mapyoff += 2;
 	else if (mapyoff > oldY)
@@ -161,7 +161,7 @@ void Levels :: adjustYScroll (int playerY, int playerHeight) {
 
 int Levels::shiftScreen () {
 	if (DEBUG) cout << "Shift screen to left." << endl;
-	if (mapxoff < ((mapblockwidth * mapwidth) - 575)){
+	if (mapxoff < ((mapblockwidth * mapwidth) - 675)){
 	 	mapxoff += 4;
 	 	return 1;
 	}

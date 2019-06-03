@@ -8,7 +8,7 @@
 #include "sprites.h"
 
 #define MODE GFX_AUTODETECT_WINDOWED
-#define WIDTH 640
+#define WIDTH 740
 #define HEIGHT 600
 #define PATH "Resources/Map/"
 
