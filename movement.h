@@ -1,3 +1,10 @@
+/*
+Title: movement.h
+Description: Deals with sprite movement and collision with environment.
+Author: Michael G. Oranski
+ID: 2743708
+Date: June 3, 2019
+*/
 #ifndef MOVEMENT_H
 #define MOVEMENT_H
 #include <allegro.h>

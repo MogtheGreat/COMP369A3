@@ -1,7 +1,23 @@
+/*
+Title: load.cpp
+Description: Deals loading resources for the game.
+Author: Michael G. Oranski
+ID: 2743708
+Date: June 3, 2019
+*/
 #include "load.h"
 
 using namespace std;
 
+/*
+	Initializes the library and Loads the necessary library components.
+
+	Param:
+		N/A
+	Return:
+		1 if something has gone wrong.
+		0 otherwise.
+*/
 int initialize () {
 	int check = allegro_init ();
 	if (check != 0) {
@@ -39,6 +55,15 @@ int initialize () {
 	return 0;
 }
 
+/*
+	Gets a list of map files from the resource folder. Must be
+	at least one map in the Resources/Map folder.
+
+	Param:
+		N/A
+	Return;
+		A list containing the name for all the available maps for the game.
+*/
 vector <string> getLvls () {
 	vector<string> list;	// Holds the file list from the directory
 	DIR * dir;				// Used to 
@@ -63,8 +88,23 @@ vector <string> getLvls () {
 	return list;
 }
 
+/*
+	Initializes all the available sprites for the game.
+
+	Param:
+		player 			- A reference to a sprite that represents the player's sprite.
+		bullets 		- An array of sprites that represents bullets
+		enemies     	- An array of sprites that represents all the enemies in the game.
+		explosion 		- An array of sprites that represents all the explosion in the game
+		blood 			- A reference to a sprite that represents player's death animation.
+	Return:
+		0 if one of the bitmaps for the sprite does not load.
+		1 if everything is all right.
+*/
 int initSprite (sprites *& player, sprites * bullets[MAX_BULLETS], sprites * enemies[MAX_ENEMIES], 
 				sprites * explosions [MAX_EXPLOSIONS], sprites *& blood) {
+	
+	// Initializes the player's sprite
 	player = new sprites ();
 	player -> setX (80);
 	player -> setY (HEIGHT/2 + 130);
@@ -87,6 +127,7 @@ int initSprite (sprites *& player, sprites * bullets[MAX_BULLETS], sprites * ene
 		return 0;
 	}
 
+	// Initializes the bullet sprites
 	for (int n = 0; n < MAX_BULLETS; n++) {
 		bullets[n] = new sprites ();
 		bullets[n] -> setAlive (0);
@@ -111,6 +152,7 @@ int initSprite (sprites *& player, sprites * bullets[MAX_BULLETS], sprites * ene
 		}
 	}
 
+	// Initializes the enemies sprites
 	for (int n = 0; n < MAX_ENEMIES; n++) {
 		enemies[n] = new sprites ();
 		enemies[n] -> setAlive (0);
@@ -136,6 +178,7 @@ int initSprite (sprites *& player, sprites * bullets[MAX_BULLETS], sprites * ene
 		}
 	}
 
+	// Initalizes the explosion sprites
 	for (int n = 0; n < MAX_EXPLOSIONS; n++) {
 		explosions [n] = new sprites ();
 		explosions [n] -> setAlive (0);
@@ -164,6 +207,7 @@ int initSprite (sprites *& player, sprites * bullets[MAX_BULLETS], sprites * ene
 		}
 	}
 
+	//Initializes the player's death sprite
 	blood = new sprites  ();
 	blood -> setAlive (0);
 	blood -> setX (0);

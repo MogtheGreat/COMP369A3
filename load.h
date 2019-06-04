@@ -1,3 +1,10 @@
+/*
+Title: load.h
+Description: Deals loading resources for the game.
+Author: Michael G. Oranski
+ID: 2743708
+Date: June 3, 2019
+*/
 #ifndef LOAD_H
 #define LOAD_H
 #include <allegro.h>

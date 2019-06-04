@@ -1,3 +1,11 @@
+/*
+Title: sprites.h
+Description: A sprite object that contains all the variables and functions that a sprite might need.
+Author: Michael G. Oranski
+ID: 2743708
+Date: June 3, 2019
+*/
+
 #ifndef SPRITES_H
 #define SPRITES_H
 #include <allegro.h>

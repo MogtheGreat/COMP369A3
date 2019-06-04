@@ -113,7 +113,7 @@ int main (int argc, char * argv[])  {
 	//create new interrupt handler
 	install_int (timer1, 1000);
 
-	displayNotice (); // display Copyright and statire notice.
+	displayDisclaimer (); // display Copyright and statire notice.
 	while (!keypressed()); // Wait for player to press any key
 	readkey(); // clears buffer
 
@@ -146,11 +146,13 @@ int main (int argc, char * argv[])  {
 				if (!pause) {
 					lvl.drawLevel (buffer, WIDTH, HEIGHT); // Draws environment to buffer
 					player -> drawframe(buffer);	// Draws player's sprite
+					
 					// Gets player's inpute and move sprite accordingly
 					playerInput (player, bullets, lvl, music, pause, soundCtrl, shoot, jump);
+					onScreen (player, WIDTH - player -> getWidth()); // Keeps player on screen
 				
 					// Moves bullets and draws to buffer
-					updatebullets (buffer, bullets, enemies, explosions, WIDTH-1, score, soundCtrl, alienDeath);
+					updatebullets (buffer, bullets, enemies, explosions, WIDTH-1, score, soundCtrl, alienDeath, lvl);
 					updateEnemies (buffer, enemies, WIDTH-1, HEIGHT-1); // Moves enemies and draws to buffer
 					updateExplosion (buffer, explosions, blood); //Moces the explosion sprites
 				
@@ -262,6 +264,7 @@ int main (int argc, char * argv[])  {
 					score = 0;
 					levelOver = false;
 					gameOver = false;
+					once = false;
 					lvl. setCurLvl (0);
 
 					if (life >= 0)
@@ -272,7 +275,7 @@ int main (int argc, char * argv[])  {
 			}
 
        	ticks++;
-	}
+	} // End of main loop
 
 	if (debug)
 		cout << "FREEING STUFF!" << endl;

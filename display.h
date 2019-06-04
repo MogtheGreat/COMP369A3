@@ -1,3 +1,10 @@
+/*
+Title: display.h
+Description: Deals with displaying info to player, display help module, start screen and game over screen.
+Author: Michael G. Oranski
+ID: 2743708
+Date: June 3, 2019
+*/
 #ifndef DISPLAY_H
 #define DISPLAY_H
 #include <allegro.h>
@@ -10,7 +17,7 @@
 #define BLUE makecol (0,0,205)
 #define RED makecol (128,0,0)
 
-void displayNotice ();
+void displayDisclaimer ();
 
 void displayStart (BITMAP * dest, int screenWidth, int screenHeight);
 

@@ -1,3 +1,12 @@
+/*
+Title: level.h
+Description: An object that represents a game level. Holds all behavior and functionality
+			 to run a game level.
+Author: Michael G. Oranski
+ID: 2743708
+Date: June 3, 2019
+*/
+
 #ifndef LEVEL_H
 #define LEVEL_H
 #include <allegro.h>

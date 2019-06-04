@@ -1,3 +1,11 @@
+/*
+Title: sound.h
+Description: An object that controls the volume, pitch and pan for the music and sound
+			 in the game
+Author: Michael G. Oranski
+ID: 2743708
+Date: June 3, 2019
+*/
 #ifndef SOUND_H
 #define SOUND_H
 #include <allegro.h>
