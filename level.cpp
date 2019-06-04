@@ -167,8 +167,8 @@ int Levels :: hitCeiling (int x, int y) {
 		1 if player is at the end. 0 otherwise.
 */
 int Levels :: levelEnd (int playerX, int screenWidth) {
-	if (mapxoff >= ((mapblockwidth * mapwidth) - 700)){
-		if (playerX > screenWidth)
+	if (mapxoff >= ((mapblockwidth * mapwidth) - 675)){
+		if (playerX >= (screenWidth-25))
 			return 1;
 	}
 
